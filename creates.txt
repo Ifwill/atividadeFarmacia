@@ -1,0 +1,56 @@
+-- CREATE DATABASE farmacia_wil;
+
+-- USE farmacia_wil;
+
+CREATE TABLE cliente(
+cpf CHAR(11) PRIMARY KEY NOT NULL,
+nome VARCHAR(45) NOT NULL,
+email VARCHAR(45) NOT NULL,
+data_nacimento DATE NOT NULL
+);
+
+CREATE TABLE cliente_telefone(
+cpf CHAR(11) PRIMARY KEY NOT NULL,
+numero_comercial CHAR(13),
+numero_residencial CHAR(8),
+numero_pessoal CHAR(9),
+FOREIGN KEY (cpf) REFERENCES cliente (cpf) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE cliente_endereco(
+cpf CHAR(11) PRIMARY KEY NOT NULL,
+nome_bairro VARCHAR(45) NOT NULL,
+numero INT NOT NULL,
+nome_rua VARCHAR(45) NOT NULL,
+cep INT NOT NULL,
+cidade VARCHAR(45) NOT NULL,
+FOREIGN KEY (cpf) REFERENCES cliente (cpf) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE fabricante(
+codigo INT PRIMARY KEY NOT NULL,
+razao_social VARCHAR(45) NOT NULL,
+nome_fantasia VARCHAR(45) NOT NULL,
+email VARCHAR(45)
+);
+
+
+CREATE TABLE medicamento(
+codigo INT PRIMARY KEY NOT NULL,
+nome VARCHAR(45) NOT NULL,
+identificacao_fabricante INT NOT NULL,
+data_validade DATE NOT NULL,
+FOREIGN KEY (identificacao_fabricante) REFERENCES fabricante (codigo) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE venda(
+codigo INT PRIMARY KEY NOT NULL,
+data_venda DATE NOT NULL,
+cpf CHAR(11) NOT NULL,
+codigo_medicamento INT NOT NULL,
+FOREIGN KEY (codigo_medicamento) REFERENCES medicamento (codigo) ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (cpf) REFERENCES cliente (cpf) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+
+
